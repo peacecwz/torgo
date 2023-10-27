@@ -34,12 +34,11 @@ func (o *GeneralOptions) Serialize() []string {
 	for _, lc := range o.Logging {
 		serializedLines = append(serializedLines, lc.Serialize())
 	}
-
-	if o.RunAsDaemon {
+	/*if o.RunAsDaemon {
 		serializedLines = append(serializedLines, "RunAsDaemon 1")
-	} else {
+	}  else {
 		serializedLines = append(serializedLines, "RunAsDaemon 0")
-	}
+	}*/
 
 	return serializedLines
 }

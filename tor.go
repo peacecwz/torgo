@@ -92,13 +92,6 @@ func (t *TorProxy) Start(ctx context.Context) error {
 			}
 
 			t.url = socks5URL
-			t.forward, err = proxy.FromURL(socks5URL, proxy.Direct)
-			if err != nil {
-				return fmt.Errorf("failed to create proxy dialer: %v", err)
-			}
-
-			t.proxy = t.forward.(ContextDialer)
-			runtime.SetFinalizer(t, (*TorProxy).Close)
 
 			return nil
 		}
@@ -110,6 +103,16 @@ func (t *TorProxy) Start(ctx context.Context) error {
 }
 
 func (t *TorProxy) GetProxy() ContextDialer {
+	forward, err := proxy.FromURL(t.url, proxy.Direct)
+	if err != nil {
+		return nil
+	}
+
+	t.forward = forward
+
+	t.proxy = t.forward.(ContextDialer)
+	runtime.SetFinalizer(t, (*TorProxy).Close)
+
 	return t.proxy
 }
 

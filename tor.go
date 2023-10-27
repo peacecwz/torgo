@@ -4,6 +4,7 @@ import (
 	"bufio"
 	"context"
 	"fmt"
+	"log"
 	"net/url"
 	"os"
 	"os/exec"
@@ -62,6 +63,10 @@ func (t *TorProxy) Start(ctx context.Context) error {
 
 	go func() {
 		for scanner.Scan() {
+			if t.options.Debug {
+				log.Println(scanner.Text())
+			}
+
 			line := scanner.Text()
 			if strings.Contains(line, "Opened Socks listener connection (ready)") {
 				bootstrapped <- true

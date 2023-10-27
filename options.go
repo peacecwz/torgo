@@ -6,6 +6,7 @@ import (
 )
 
 type Options struct {
+	Debug          bool
 	GeneralOptions *GeneralOptions
 	// .. add more options
 }
